@@ -10,7 +10,7 @@ import java.util.logging.SimpleFormatter;
 
 import com.chat.apis.ChatServer;
 
-public class ChatServerDriver {
+public class StartServer {
     private static ChatServerImpl chatServer = new ChatServerImpl();
 
     public static void main(String[] args) {

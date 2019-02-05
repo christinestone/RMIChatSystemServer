@@ -7,34 +7,34 @@ import java.util.Map;
 
 import com.chat.apis.ChatClient;
 import com.chat.apis.ChatServer;
-import com.server.exceptions.UserAlreadyExistsException;
 
 public class ChatServerImpl implements ChatServer {
 	private Map<String, ChatClient> clientsMap = new HashMap<>();
 
 	@Override
-	public void registerUser(ChatClient client, String clientName) throws RemoteException {
-		clientsMap.put(clientName, client);        
-		System.out.println(clientName + " has joined.");
+	public void register(ChatClient client, String clientName) throws RemoteException {
+		if(clientName.length() < 1) {
+			System.out.println("Username cannot be null");
+		} else {
+			clientsMap.put(clientName, client);
+			broadcast(clientName + " has joined");
+		}
 	}
 
 	@Override
-	public ArrayList<String> listRegisteredUsers() throws RemoteException {
+	public ArrayList<String> listUsers() throws RemoteException {
 		return new ArrayList<String>(clientsMap.keySet());
 	}
 
 	@Override
-	public void sendPrivateMessage(String message, String user) throws RemoteException {
-		clientsMap.get(user).display(message);
+	public void privateMessage(String message, String user) throws RemoteException {
+		clientsMap.get(user).receive(message);
 	}
 
 	@Override
-	public void broadcastMessages(String message) throws RemoteException {
+	public void broadcast(String message) throws RemoteException {
 		for (Map.Entry<String, ChatClient> client : clientsMap.entrySet()) {
-			String clientName = client.getKey();
-			if (!message.startsWith(clientName)) {
-				client.getValue().display(message);
-			}
+			client.getValue().receive(message);
 		}
 	}
 }
