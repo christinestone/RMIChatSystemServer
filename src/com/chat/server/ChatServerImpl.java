@@ -14,10 +14,10 @@ public class ChatServerImpl implements ChatServer {
 	@Override
 	public void register(ChatClient client, String clientName) throws RemoteException {
 		if(clientName.length() < 1) {
-			System.out.println("Username cannot be null");
+			System.out.println("Username cannot be null.");
 		} else {
 			clientsMap.put(clientName, client);
-			broadcast(clientName + " has joined");
+			broadcast(clientName + " joined the conversation.");
 		}
 	}
 
@@ -25,9 +25,14 @@ public class ChatServerImpl implements ChatServer {
 	public ArrayList<String> listUsers() throws RemoteException {
 		return new ArrayList<String>(clientsMap.keySet());
 	}
+	
+	@Override
+	public void updateUsersList(String clientName) throws RemoteException {
+		clientsMap.remove(clientName);
+	}
 
 	@Override
-	public void privateMessage(String message, String user) throws RemoteException {
+	public void privateMessage(String user, String message) throws RemoteException {
 		clientsMap.get(user).receive(message);
 	}
 
