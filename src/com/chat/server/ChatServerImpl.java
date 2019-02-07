@@ -13,12 +13,8 @@ public class ChatServerImpl implements ChatServer {
 
 	@Override
 	public void register(ChatClient client, String clientName) throws RemoteException {
-		if(clientName.length() < 1) {
-			System.out.println("Username cannot be null.");
-		} else {
 			clientsMap.put(clientName, client);
 			broadcast(clientName + " joined the conversation.");
-		}
 	}
 
 	@Override

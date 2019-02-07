@@ -10,12 +10,11 @@ import java.util.logging.SimpleFormatter;
 
 import com.chat.apis.ChatServer;
 
-public class StartServer {
+public class StartChatServer {
     private static ChatServerImpl chatServer = new ChatServerImpl();
+    static Logger logger = Logger.getLogger("MyLog");
 
     public static void main(String[] args) {
-        
-        Logger logger = Logger.getLogger("MyLog");  
         FileHandler fh;
 
         try {
